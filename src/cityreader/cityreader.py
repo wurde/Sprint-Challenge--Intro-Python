@@ -90,15 +90,15 @@ for c in cities:
 # Salt Lake City: (40.7774,-111.9301)
 
 # Get latitude and longitude values from the user
-# coord1_input = input('Enter (lat1, lon1): ')
-# coord1 = coord1_input.split(',')
-lat1 = 42 #float(coord1[0])
-lon1 = -100 #float(coord1[1])
+coord1_input = input('Enter (lat1, lon1): ')
+coord1 = coord1_input.split(',')
+lat1 = float(coord1[0])
+lon1 = float(coord1[1])
 
-# coord2_input = input('Enter (lat2, lon2): ')
-# coord2 = coord2_input.split(',')
-lat2 = 32 #float(coord2[0])
-lon2 = -120 #float(coord2[1])
+coord2_input = input('Enter (lat2, lon2): ')
+coord2 = coord2_input.split(',')
+lat2 = float(coord2[0])
+lon2 = float(coord2[1])
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   within = []
@@ -109,6 +109,36 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   lon1 = float(lon1)
   lon2 = float(lon2)
 
-  # TODO Check if city is within the specified coordinates.
+  def isWithinBounds(city_lat, city_lon):
+    if (lat1 > lat2):
+      if (lon1 > lon2):
+        if city_lat <= lat1 and city_lat >= lat2 and city_lon <= lon1 and city_lon >= lon2:
+          return True
+        else:
+          return False
+      else:
+        if city_lat <= lat1 and city_lat >= lat2 and city_lon <= lon2 and city_lon >= lon1:
+          return True
+        else:
+          return False
+    else:
+      if (lon1 > lon2):
+        if city_lat <= lat2 and city_lat >= lat1 and city_lon <= lon1 and city_lon >= lon2:
+          return True
+        else:
+          return False
+      else:
+        if city_lat <= lat2 and city_lat >= lat1 and city_lon <= lon2 and city_lon >= lon1:
+          return True
+        else:
+          return False
+
+  # Check if city is within the specified coordinates.
+  for city in cities:
+    if isWithinBounds(city.lat, city.lon):
+      within.append(city)
 
   return within
+
+citymatch = cityreader_stretch(lat1, lon1, lat2, lon2, cities)
+print(citymatch)
